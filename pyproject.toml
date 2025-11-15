@@ -1,0 +1,40 @@
+[project]
+name = "py-laba3"
+version = "0.1.0"
+description = "Agos"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "ruff>=0.14.5",
+    "typer>=0.20.0",
+]
+
+#[tool.pytest.ini_options]
+#addopts = [
+#    "--cov=src",
+#    "--cov-branch",
+#    "--cov-report=term-missing",
+#    "-q",
+#]
+#testpaths = ["tests"]
+#pythonpath = ["."]
+#
+#[tool.coverage.run]
+#source = ["src"]
+#branch = true
+#parallel = true
+#omit = ["*/__init__.py", "*/main.py"]
+#
+#[tool.coverage.report]
+#show_missing = true
+#fail_under = 80
+
+[tool.ruff]
+src = ["src", "tests"]
+lint.select = ["E", "F", "W", "I", "N", "UP", "B", "A"]
+fix = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
