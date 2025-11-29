@@ -1,4 +1,7 @@
-def insertion_sort(a: list[float], reverse: bool = False) -> list[float]:
+def insertion_sort[T: (int, float)](a: list[T], reverse: bool = False) -> list[T]:
+    if not a:
+        return a[:]
+
     arr = a[:]
     for i in range(1, len(arr)):
         key = arr[i]
@@ -15,3 +18,6 @@ def insertion_sort(a: list[float], reverse: bool = False) -> list[float]:
 
         arr[j + 1] = key
     return arr
+
+
+# Любимое очевидно

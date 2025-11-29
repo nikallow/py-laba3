@@ -9,6 +9,7 @@ class Node:
         self.current_min = current_min
 
 
+# Stack на связанных списках
 class Stack:
     def __init__(self):
         self.top = None
@@ -36,6 +37,7 @@ class Stack:
             raise IndexError("Stack is empty")
         return self.top.value
 
+    # O(1)
     def min(self) -> int:
         if self.top is None:
             raise IndexError("Stack is empty")
@@ -49,9 +51,11 @@ class Stack:
     def __len__(self) -> int:
         return self.size
 
+    # Аналогично queue
     def save_to_file(self, filepath: Path) -> None:
         filepath.parent.mkdir(parents=True, exist_ok=True)
 
+        # Вытаскиваем из связанного списка
         values: list[int] = []
         node = self.top
         while node is not None:
@@ -74,5 +78,6 @@ class Stack:
             count = filepath.stat().st_size // arr.itemsize
             arr.fromfile(f, count)
 
+        # Обратно надо в ревёрсе
         for value in reversed(arr):
             self.push(value)

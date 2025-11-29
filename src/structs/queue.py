@@ -2,6 +2,7 @@ import array
 from pathlib import Path
 
 
+# Queue на списке
 class Queue:
     def __init__(self) -> None:
         self.queue: list[int] = []
@@ -30,10 +31,12 @@ class Queue:
 
     def save_to_file(self, filepath: Path) -> None:
         filepath.parent.mkdir(parents=True, exist_ok=True)
-        arr = array.array("i", self.queue)
+        arr = array.array("i", self.queue)  # Преобразовываем в array
+        # Пишем в бинарный файл (быстрее чтение + меньше мороки)
         with filepath.open("wb") as f:
             arr.tofile(f)
 
+    # Выгрузка с файла
     def load_from_file(self, filepath: Path) -> None:
         if not filepath.exists() or filepath.stat().st_size == 0:
             self.queue = []
@@ -42,7 +45,7 @@ class Queue:
 
         arr = array.array("i")
         with filepath.open("rb") as f:
-            count = filepath.stat().st_size // arr.itemsize
+            count = filepath.stat().st_size // arr.itemsize  # Кол-во элементов
             arr.fromfile(f, count)
 
         self.queue = arr.tolist()

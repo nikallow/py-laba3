@@ -78,7 +78,7 @@ def sort_cli(
             typer.secho(f"Ошибка преобразования данных: {e}", fg=typer.colors.RED)
             raise typer.Exit(1) from e
 
-    # Доп аргументы
+    # Доп аргументы, линтер тут дуреет
     kwargs: dict[str, Any] = {"reverse": reverse}
     params: Any = sort_spec.get("params", [])
     if "base" in params:

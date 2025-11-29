@@ -1,4 +1,7 @@
-def bubble_sort(a: list[int], reverse: bool = False) -> list[int]:
+def bubble_sort[T: (int, float)](a: list[T], reverse: bool = False) -> list[T]:
+    if not a:
+        return a[:]
+
     arr = a[:]
     n = len(arr)
     compare = (lambda x, y: x > y) if not reverse else (lambda x, y: x < y)

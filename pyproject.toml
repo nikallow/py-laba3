@@ -6,29 +6,31 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "pydantic>=2.12.5",
+    "pytest>=9.0.1",
+    "pytest-cov>=7.0.0",
     "ruff>=0.14.7",
     "typer>=0.20.0",
 ]
 
-#[tool.pytest.ini_options]
-#addopts = [
-#    "--cov=src",
-#    "--cov-branch",
-#    "--cov-report=term-missing",
-#    "-q",
-#]
-#testpaths = ["tests"]
-#pythonpath = ["."]
-#
-#[tool.coverage.run]
-#source = ["src"]
-#branch = true
-#parallel = true
-#omit = ["*/__init__.py", "*/main.py"]
-#
-#[tool.coverage.report]
-#show_missing = true
-#fail_under = 80
+[tool.pytest.ini_options]
+addopts = [
+    "--cov=src",
+    "--cov-branch",
+    "--cov-report=term-missing",
+    "-q",
+]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+parallel = true
+omit = ["*/__init__.py", "*/main.py"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
 
 [tool.ruff]
 src = ["src", "tests"]

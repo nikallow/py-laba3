@@ -2,14 +2,16 @@ def counting_sort(
     a: list[int], exp: int | None = None, base: int = 10, reverse: bool = False
 ) -> list[int]:
     if not a:
-        return a
+        return a[:]
 
+    # Сортировка по разряду (для radix sort)
     if exp is not None:
         freq = [0] * base
         for num in a:
             digit = (num // exp) % base
             freq[digit] += 1
 
+        # Префиксные сумы для позиций
         if not reverse:
             for i in range(1, base):
                 freq[i] += freq[i - 1]
@@ -32,6 +34,7 @@ def counting_sort(
 
         return res
 
+    # Классика
     max_val = max(a)
     freq = [0] * (max_val + 1)
     for el in a:
