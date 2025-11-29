@@ -1,14 +1,15 @@
 def heap_sort(a: list[int], reverse: bool = False) -> list[int]:
-    n = len(a)
+    arr = a[:]
+    n = len(arr)
 
     for i in range(n // 2 - 1, -1, -1):
-        heapify(a, n, i, reverse)
+        heapify(arr, n, i, reverse)
 
     for i in range(n - 1, 0, -1):
-        a[0], a[i] = a[i], a[0]
-        heapify(a, i, 0, reverse)
+        arr[0], arr[i] = arr[i], arr[0]
+        heapify(arr, i, 0, reverse)
 
-    return a
+    return arr
 
 
 def heapify(a: list[int], n: int, i: int, reverse: bool = False) -> None:

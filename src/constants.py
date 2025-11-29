@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import TypeAdapter
 
 from src.sorts.bubble_sort import bubble_sort
@@ -50,3 +52,7 @@ TYPE_MAP = {
     "int": TypeAdapter(int),
     "float": TypeAdapter(float),
 }
+
+STORAGE_DIR = Path("storage")
+QUEUE_DIR = STORAGE_DIR / "queues"
+STACK_DIR = STORAGE_DIR / "stacks"
