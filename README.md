@@ -77,7 +77,7 @@ uv run -m src.main sort-cli 5.5 2.2 9.9 1.1 --sort bucket --type float
 # Heap sort
 uv run -m src.main sort-cli 5 2 9 1 5 6 --sort heap
 
-# Insertion sort
+# Insertion sort (Дополнительно для bucket_sort)
 uv run -m src.main sort-cli 5 2 9 1 5 6 --sort insertion -r
 ```
 ### Stack
