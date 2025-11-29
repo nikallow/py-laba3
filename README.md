@@ -13,3 +13,7 @@ uv sync
 uv run -m src.main # Запуск шелла
 uv run pytest # Запуск тестов
 ```
+
+```bash
+uv run -m src.main bubble-sort-cmd 5 2 9 1 5 6 --reverse
+```
