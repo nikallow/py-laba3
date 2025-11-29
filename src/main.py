@@ -1,16 +1,10 @@
-from typing import Annotated
+from typing import Annotated, Any, Literal
 
 import typer
 
 from src.algos.factorial import factorial_iterative, factorial_recursive
 from src.algos.fibonacci import fibonacci_iterative, fibonacci_recursive
-from src.sorts.bubble_sort import bubble_sort
-from src.sorts.bucket_sort import bucket_sort
-from src.sorts.counting_sort import counting_sort
-from src.sorts.heap_sort import heap_sort
-from src.sorts.insertion_sort import insertion_sort
-from src.sorts.quick_sort import quick_sort
-from src.sorts.radix_sort import radix_sort
+from src.constants import SORTS, TYPE_MAP
 
 app = typer.Typer()
 
@@ -46,65 +40,51 @@ def fibonacci_cli(
 
 
 @app.command()
-def bubble_sort_cli(
-    numbers: Annotated[list[int], typer.Argument(help="Список чисел (int)")],
+def sort_cli(
+    numbers: Annotated[list[str], typer.Argument(help="Список чисел")],
+    sort: str = typer.Option("quick", "--sort", help="Тип сортировки"),
+    nums_type: Literal["int", "float"] = typer.Option(
+        "int", "--type", "-t", help="Тип данных: int | float"
+    ),
     reverse: bool = typer.Option(False, "--reverse", "-r"),
+    base: int = typer.Option(10, "--base", "-b"),
 ):
-    typer.echo(f"Результат bubble_sort: {bubble_sort(numbers, reverse=reverse)}")
+    if sort not in SORTS:
+        typer.secho(f"{sort}_sort не найдена", fg=typer.colors.RED)
+        raise typer.Exit(1)
 
+    sort_spec = SORTS[sort]
+    sort_type = sort_spec["type"]
 
-@app.command()
-def quick_sort_cli(
-    numbers: Annotated[list[int], typer.Argument(help="Список чисел (int)")],
-    reverse: bool = typer.Option(False, "--reverse", "-r"),
-):
-    typer.echo(f"Результат quick_sort: {quick_sort(numbers, reverse=reverse)}")
+    # Проверка на поддерживаемость
+    if sort_type != "both" and sort_type != nums_type:
+        typer.secho(
+            # Английский короче по объёму
+            f"{sort}_sort поддерживает только {sort_type}. Use --type={sort_type}",
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
 
+    # Преобразование в числа
+    adapter: Any = TYPE_MAP[nums_type]
+    parsed = []
+    for x in numbers:
+        try:
+            parsed.append(adapter.validate_python(x))
+        except Exception as e:
+            typer.secho(f"Ошибка преобразования данных: {e}", fg=typer.colors.RED)
+            raise typer.Exit(1) from e
 
-@app.command()
-def counting_sort_cli(
-    numbers: Annotated[list[int], typer.Argument(help="Список чисел (int)")],
-    base: int = typer.Option(10, "--base", "-b", help="Основание системы счисления"),
-    reverse: bool = typer.Option(False, "--reverse", "-r"),
-):
-    typer.echo(
-        f"Результат counting_sort: {counting_sort(numbers, base=base, reverse=reverse)}"
-    )
+    # Доп аргументы
+    kwargs: dict[str, Any] = {"reverse": reverse}
+    params: Any = sort_spec.get("params", [])
+    if "base" in params:
+        kwargs["base"] = base
 
+    func: Any = sort_spec["func"]
+    result = func(parsed, **kwargs)
 
-@app.command()
-def radix_sort_cli(
-    numbers: Annotated[list[int], typer.Argument(help="Список чисел (int)")],
-    base: int = typer.Option(10, "--base", "-b", help="Основание системы счисления"),
-    reverse: bool = typer.Option(False, "--reverse", "-r"),
-):
-    typer.echo(
-        f"Результат radix_sort: {radix_sort(numbers, base=base, reverse=reverse)}"
-    )
-
-
-@app.command()
-def heap_sort_cli(
-    numbers: Annotated[list[int], typer.Argument(help="Список чисел (int)")],
-    reverse: bool = typer.Option(False, "--reverse", "-r"),
-):
-    typer.echo(f"Результат heap_sort: {heap_sort(numbers, reverse=reverse)}")
-
-
-@app.command()
-def insertion_sort_cli(
-    numbers: Annotated[list[float], typer.Argument(help="Список чисел (int)")],
-    reverse: bool = typer.Option(False, "--reverse", "-r"),
-):
-    typer.echo(f"Результат heap_sort: {insertion_sort(numbers, reverse=reverse)}")
-
-
-@app.command()
-def bucket_sort_cli(
-    numbers: Annotated[list[float], typer.Argument(help="Список чисел (int)")],
-    reverse: bool = typer.Option(False, "--reverse", "-r"),
-):
-    typer.echo(f"Результат bucket_sort: {bucket_sort(numbers, reverse=reverse)}")
+    typer.echo(f"{sort}_sort: {result}")
 
 
 if __name__ == "__main__":

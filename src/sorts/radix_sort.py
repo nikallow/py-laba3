@@ -9,7 +9,9 @@ def radix_sort(a: list[int], base: int = 10, reverse: bool = False) -> list[int]
 
     exp = 1
     while max_num // exp >= 1:
-        a = counting_sort(a, exp=exp, base=base, reverse=reverse)
+        a = counting_sort(a, exp=exp, base=base)
         exp *= base
 
+    if reverse:
+        a = a[::-1]
     return a

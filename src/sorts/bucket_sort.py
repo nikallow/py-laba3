@@ -19,7 +19,11 @@ def bucket_sort(
         insertion_sort(bucket, reverse=reverse)
 
     res = []
-    for bucket in buckets:
-        res.extend(bucket)
+    if not reverse:
+        for bucket in buckets:
+            res.extend(bucket)
+    else:
+        for bucket in reversed(buckets):
+            res.extend(bucket)
 
     return res
