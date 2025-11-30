@@ -125,3 +125,6 @@ uv run -m src.main queue-is-empty -n myqueue
 uv run -m src.main queue-len -n myqueue
 ```
 И опять лаба не до конца, так как планирование... Конечно, можно перекинуть вину на вакцинацию и хакатон, но всё же
+
+### Решённая практика (До дедлайна!)
+https://github.com/nikallow/py-laba3-leetcode
